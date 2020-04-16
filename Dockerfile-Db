@@ -1,0 +1,6 @@
+FROM postgres:12-alpine
+
+RUN mkdir -p /tmp/psql_data/
+
+COPY ./db-context/db_backup.sql /tmp/psql_data/
+COPY ./db-context/init_docker_postgres.sh /docker-entrypoint-initdb.d/
