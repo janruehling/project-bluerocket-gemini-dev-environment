@@ -3,8 +3,8 @@
 ## Prerequisites
 - Have Docker and Docker-Compose installed
 - git clone `gemini-web-react`, `gemini-api-node` & `gemini-dev-environment` into the same folder
-- Rename `.env-api` & `.env-web` to `.env`
-- Replace the `<Ask your fellow developers>` placeholders with real values
+- Rename `.env-api-sample` to `.env-api` & `.env-web-sample` to `.env-web`
+- Replace the `<Ask your fellow developers>` placeholders with real values in both .env files
 
 ## Usage
 - `cd gemini-dev-environment`
