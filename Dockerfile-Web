@@ -9,6 +9,7 @@ COPY ./gemini-web-react/package*.json ./
 USER node
 
 RUN npm install
+RUN npm install --only=dev
 
 COPY --chown=node:node ./gemini-web-react .
 # COPY --chown=node:node ./gemini-dev-environment/webpack.common.js .
