@@ -3,3 +3,4 @@
 _env-api
 scripts.sh
 *.swp
+db_backup_old.sql
