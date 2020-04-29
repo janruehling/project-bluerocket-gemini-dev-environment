@@ -1,6 +1,5 @@
 .env-api
 .env-web
-_env-api
-scripts.sh
+.envrc
+*.sql
 *.swp
-db_backup_old.sql
