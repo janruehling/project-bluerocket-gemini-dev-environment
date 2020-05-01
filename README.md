@@ -18,6 +18,7 @@
 
 - `cd gemini-dev-environment`
 - `make db_dump` to pull the latest data from the database. Do that regularly.
+- `docker-compose down -v` or `docker-compose rm` -> Make sure that the environment is not running and delete all created volumes for this stack. The database data won't update if there is still an existing volume around.
 - `docker-compose up --build` (use `docker-compose up --build -d` if you want to do work in the same terminal)
 
 - http://localhost:3000 > React App
