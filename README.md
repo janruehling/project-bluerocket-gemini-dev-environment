@@ -28,3 +28,8 @@
 - http://localhost:8080/playground > GraphiQL interface
 - http://localhost:8080/voyager > Voyager interface
 - http://localhost:4000 > Adminer Postgres interface (User/Password: `postgres`, host: `db`). Database used inside the app is `postgres` too
+
+## Heads up
+
+- If you run into `[nodemon] Internal watch failed: ENOSPC: System limit for number of file watchers reached, watch '/home/node/app'` then run `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p` to increase the number of supported watchers for nodemon
+- To speed up the build steps in Docker put a `.dockerignore` file into the parent container of this folder and add `**/node_modules` and `**/.git` to it.

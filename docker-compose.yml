@@ -1,26 +1,52 @@
-version: '3'
+version: '3.7'
 
 services:
+
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile-Db
+    image: local/gemini-db
+    restart: unless-stopped
+    ports:
+      - "25060:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=doadmin
+      - POSTGRES_DB=defaultdb
+    volumes:
+      - data_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U doadmin -d defaultdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   api:
     build:
       context: ../
       dockerfile: ./gemini-dev-environment/Dockerfile-Api
     image: local/gemini-api
-    container_name: api
     restart: unless-stopped
     env_file: .env-api
     ports:
       - "8080:8080"
     volumes:
       - ../gemini-api-node:/home/node/app
-    command: /home/node/app/node_modules/.bin/nodemon --exec babel-node src/server.js
+      - node_modules_api:/home/node/app/node_modules
+    depends_on:
+      - db
+    command: >
+      sh -c "
+        npx sequelize db:migrate &&
+        npx nodemon --exec babel-node src/server.js
+      "
 
   web:
     build:
       context: ../
       dockerfile: ./gemini-dev-environment/Dockerfile-Web
     image: local/gemini-web
-    container_name: web
     restart: unless-stopped
     env_file: .env-web
     ports:
@@ -28,24 +54,15 @@ services:
       - "9001:9001"
     volumes:
       - ../gemini-web-react:/home/node/app
+      - node_modules_web:/home/node/app/node_modules
+    depends_on:
+      - api
     command: >
-      /bin/sh -c "/home/node/app/node_modules/.bin/webpack-dev-server --config webpack.dev.js --color & 
-                  /home/node/app/node_modules/.bin/start-storybook -p 9001 --quiet --ci"
+      sh -c "
+        npx webpack-dev-server --config webpack.dev.js --color &
+        npx start-storybook -p 9001 --quiet --ci
+      "
  
-  db:
-    build:
-      context: .
-      dockerfile: Dockerfile-Db
-    image: local/gemini-db
-    container_name: db
-    restart: unless-stopped
-    environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgres
-    volumes:
-      - data_db:/var/lib/postgresql/data
-
   adminer:
     image: adminer
     restart: unless-stopped
@@ -53,6 +70,6 @@ services:
       - 4000:8080
 
 volumes:
-#  node_modules_api:
-#  node_modules_web:
+  node_modules_api:
+  node_modules_web:
   data_db:
