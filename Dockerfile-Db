@@ -1,6 +1,6 @@
 FROM postgres:11-alpine
 
-RUN mkdir -p /tmp/psql_data/
-
-COPY ./db-context/db_dump.sql /tmp/psql_data/
-COPY ./db-context/init_docker_postgres.sh /docker-entrypoint-initdb.d/
+# RUN mkdir -p /tmp/psql_data/
+#
+# COPY ./db-context/db_dump.sql /tmp/psql_data/
+# COPY ./db-context/init_docker_postgres.sh /docker-entrypoint-initdb.d/
