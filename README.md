@@ -27,7 +27,7 @@
 - http://localhost:8080/graphql > API endpoints
 - http://localhost:8080/playground > GraphiQL interface
 - http://localhost:8080/voyager > Voyager interface
-- http://localhost:4000 > Adminer Postgres interface (User/Password: `postgres`, host: `db`). Database used inside the app is `postgres` too
+- http://localhost:4000 > Adminer Postgres interface (User: `doadmin`, Password: `postgres`, host: `defaultdb`).
 
 ## Heads up
 
